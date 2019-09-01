@@ -39,6 +39,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       return this.videoEl;
     }
     const el = document.createElement('video');
+    el.setAttribute('playsinline', 'true');
     el.setAttribute('autoplay', 'true');
     this.videoEl = el;
     return this.videoEl;

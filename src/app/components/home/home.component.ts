@@ -46,11 +46,15 @@ export class HomeComponent implements OnInit, OnDestroy {
   toggle() {
     if (!this.stream) {
       const video = this.video;
+      let isFirst = true;
       this.streamSubscription = this.cameraService.stream.subscribe(stream => {
         video.srcObject = stream;
         this.stream = stream;
+        if (isFirst) {
+          isFirst = false;
+          this.videoToCanvasLoop();
+        }
       });
-      this.videoToCanvasLoop();
     } else {
       this.videoEl = null;
       this.streamSubscription.unsubscribe();
@@ -74,11 +78,27 @@ export class HomeComponent implements OnInit, OnDestroy {
     );
   }
   setupCanvas() {
-    if (this.videoEl) {
-      this.canvas.nativeElement.width = this.videoEl.videoWidth;
-      this.canvas.nativeElement.height = this.videoEl.videoHeight;
-      this.bufferCanvas.nativeElement.width = this.videoEl.videoWidth;
-      this.bufferCanvas.nativeElement.height = this.videoEl.videoHeight;
+    if (
+      this.videoEl &&
+      this.videoEl.videoWidth > 0 &&
+      this.canvas.nativeElement.width !== this.videoEl.videoWidth
+    ) {
+      this.canvas.nativeElement.setAttribute(
+        'width',
+        `${this.videoEl.videoWidth}`
+      );
+      this.canvas.nativeElement.setAttribute(
+        'height',
+        `${this.videoEl.videoHeight}`
+      );
+      this.bufferCanvas.nativeElement.setAttribute(
+        'width',
+        `${this.videoEl.videoWidth}`
+      );
+      this.bufferCanvas.nativeElement.setAttribute(
+        'height',
+        `${this.videoEl.videoHeight}`
+      );
     }
   }
   videoToCanvasLoop() {

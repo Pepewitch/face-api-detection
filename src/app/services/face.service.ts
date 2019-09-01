@@ -38,7 +38,7 @@ export class FaceService {
     );
     return mtcnnResults;
   }
-  async faceDetect(el, drawEl?) {
+  faceDetect(el, drawEl?) {
     this.faceDetectSubject.next({ el, drawEl });
   }
 }

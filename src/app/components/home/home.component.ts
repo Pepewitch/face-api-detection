@@ -15,6 +15,9 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy {
+  @ViewChild('videoNative', { static: true }) videoNative: ElementRef<
+    HTMLVideoElement
+  >;
   @ViewChild('canvas', { static: true }) canvas: ElementRef<HTMLCanvasElement>;
   @ViewChild('bufferCanvas', { static: true }) bufferCanvas: ElementRef<
     HTMLCanvasElement
@@ -50,6 +53,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       let isFirst = true;
       this.streamSubscription = this.cameraService.stream.subscribe(stream => {
         video.srcObject = stream;
+        this.videoNative.nativeElement.srcObject = stream;
         this.stream = stream;
         if (isFirst) {
           isFirst = false;

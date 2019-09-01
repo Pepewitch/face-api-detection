@@ -69,13 +69,22 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.video,
       0,
       0,
-      this.canvas.nativeElement.width,
-      this.canvas.nativeElement.height
+      this.bufferCanvas.nativeElement.width,
+      this.bufferCanvas.nativeElement.height
     );
+  }
+  setupCanvas() {
+    if (this.videoEl) {
+      this.canvas.nativeElement.width = this.videoEl.videoWidth;
+      this.canvas.nativeElement.height = this.videoEl.videoHeight;
+      this.bufferCanvas.nativeElement.width = this.videoEl.videoWidth;
+      this.bufferCanvas.nativeElement.height = this.videoEl.videoHeight;
+    }
   }
   videoToCanvasLoop() {
     requestAnimationFrame(() => {
       if (this.videoEl) {
+        this.setupCanvas();
         this.renderVideoToCanvas();
         this.detect();
       }
